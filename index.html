@@ -26,40 +26,36 @@
 </head>
 
 <body>
-  <div class="game-board">
-    <div class="game-map">
-      <div class="map-row">
-        <div class="map-cell"></div>
-        <div class="map-cell"></div>
-        <div class="map-cell"></div>
-        <div class="map-cell"></div>
+  <div class ="game">
+      <div class="grid-panel">
+        <div class="grid-cell"></div>
+        <div class="grid-cell"></div>
+        <div class="grid-cell"></div>
+        <div class="grid-cell"></div>
+        <div class="grid-cell"></div>
+        <div class="grid-cell"></div>
+        <div class="grid-cell"></div>
+        <div class="grid-cell"></div>
+        <div class="grid-cell"></div>
+        <div class="grid-cell"></div>
+        <div class="grid-cell"></div>
+        <div class="grid-cell"></div>
+        <div class="grid-cell"></div>
+        <div class="grid-cell"></div>
+        <div class="grid-cell"></div>
+        <div class="grid-cell"></div>        
       </div>
-      <div class="map-row">
-        <div class="map-cell"></div>
-        <div class="map-cell"></div>
-        <div class="map-cell"></div>
-        <div class="map-cell"></div>
+
+      <div class="control-panel">
+        <button onclick="game.onCommandUp()">Robot</button>
+        <button onclick="game.onCommandRight()">=></button>
+        <button onclick="game.onCommandDown()">V</button>
+        <button onclick="game.onCommandLeft()">&lt=</button>
+        <button onclick="game.onCommandReset()">Reset</button>
       </div>
-      <div class="map-row">
-        <div class="map-cell"></div>
-        <div class="map-cell"></div>
-        <div class="map-cell"></div>
-        <div class="map-cell"></div>
-      </div>
-      <div class="map-row">
-        <div class="map-cell"></div>
-        <div class="map-cell"></div>
-        <div class="map-cell"></div>
-        <div class="map-cell"></div>
-      </div>
-    <div class="control-panel">
-      <button onclick="onCommandUp()">Robot</button>
-      <button onclick="onCommandRight()">=></button>
-      <button onclick="onCommandDown()">V</button>
-      <button onclick="onCommandLeft()">&lt=</button>
-      <button onclick="onCommandReset()">Reset</button>
-    </div>
+
   </div>
+  
   <noscript>
     You need to enable JavaScript to run this app.
   </noscript>
