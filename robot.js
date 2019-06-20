@@ -20,6 +20,7 @@ function Game(mapWidth, mapHeight, robot)
     this.mapWidth = mapWidth;
     this.mapHeight = mapHeight;
     this.robot = robot;
+    this.history = [];
 
     this.init = function()
     {
@@ -30,6 +31,7 @@ function Game(mapWidth, mapHeight, robot)
     this.onCommandUp = function()
     {
         var targetPostion = new Position(this.robot.position.x, this.robot.position.y-1);
+        this.history.push(this.robot.position);
         this.move(targetPostion);
         
     };
@@ -37,6 +39,7 @@ function Game(mapWidth, mapHeight, robot)
     this.onCommandRight = function()
     {
         var targetPostion = new Position(this.robot.position.x + 1, this.robot.position.y);
+        this.history.push(this.robot.position);
         this.move(targetPostion);
         
     };
@@ -44,6 +47,7 @@ function Game(mapWidth, mapHeight, robot)
     this.onCommandDown = function()
     {
         var targetPostion = new Position(this.robot.position.x, this.robot.position.y + 1);
+        this.history.push(this.robot.position);
         this.move(targetPostion);
         
     };
@@ -51,6 +55,7 @@ function Game(mapWidth, mapHeight, robot)
     this.onCommandLeft = function()
     {
         var targetPostion = new Position(this.robot.position.x - 1, this.robot.position.y);
+        this.history.push(this.robot.position);
         this.move(targetPostion);
         
     };
@@ -59,18 +64,25 @@ function Game(mapWidth, mapHeight, robot)
     {
         var targetPostion = new Position(0,0);
         this.move(targetPostion);
-    }
+    };
+
+    this.onCommandBack = function()
+    {
+        this.move(this.history.pop());
+
+    };
 
     this.render = function() {
         var mapCells = document.querySelectorAll('.grid-cell');
         var robotIndex = this.robot.position.toIndex(this.mapWidth);
-        for (var i = 0; i < mapCells.length; i++) {
+        mapCells.forEach((aCell, i ) =>
+        {
             if (i === robotIndex) {
                 mapCells[i].innerHTML = 'R';
             } else {
                 mapCells[i].innerHTML = '';
             }
-        }
+        });
     };
 
     this.avaiablePosition = function(newPosition)

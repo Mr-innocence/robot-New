@@ -27,31 +27,14 @@
 
 <body>
   <div class ="game">
-      <div class="grid-panel">
-        <div class="grid-cell"></div>
-        <div class="grid-cell"></div>
-        <div class="grid-cell"></div>
-        <div class="grid-cell"></div>
-        <div class="grid-cell"></div>
-        <div class="grid-cell"></div>
-        <div class="grid-cell"></div>
-        <div class="grid-cell"></div>
-        <div class="grid-cell"></div>
-        <div class="grid-cell"></div>
-        <div class="grid-cell"></div>
-        <div class="grid-cell"></div>
-        <div class="grid-cell"></div>
-        <div class="grid-cell"></div>
-        <div class="grid-cell"></div>
-        <div class="grid-cell"></div>        
-      </div>
-
+    <div id = "grid-panel" class ="grid-panel"></div>
       <div class="control-panel">
         <button onclick="game.onCommandUp()">Robot</button>
         <button onclick="game.onCommandRight()">=></button>
         <button onclick="game.onCommandDown()">V</button>
         <button onclick="game.onCommandLeft()">&lt=</button>
         <button onclick="game.onCommandReset()">Reset</button>
+        <button onclick="game.onCommandBack()">Back</button>
       </div>
 
   </div>
@@ -60,8 +43,9 @@
     You need to enable JavaScript to run this app.
   </noscript>
   <div id="root"></div>
-  <script src="./robot.js"></script>
-  <script src="jsTest.js"></script>
+  <!-- <script src="./robot.js"></script> -->
+  <!-- <script src="jsTest.js"></script> -->
+  <script src="reactFirstTry.js"></script>
 </body>
 
 </html>

@@ -69,6 +69,7 @@ class Game{
         this.map = new Map(4,4);
         this.startPostion = startPostion;
         this.robot = new Robot(this.startPostion, "R", this.map);
+        this.engine = new Engine(this);
         
         console.log("start Position" + startPostion.x + startPostion.y);
     }
@@ -85,6 +86,10 @@ class Game{
 
     onCommandRight(){
         this.robot.move(this.robot.position.getRight());
+        if(this.robot.position.x === this.map.width-1){
+            this.map.width += 1;
+
+        }
         this.render();
     }
 
@@ -111,16 +116,68 @@ class Game{
     
 
     render(){
-        let myCells = document.querySelectorAll('.grid-cell');
-        let robotIndex = this.map.getIndex(this.robot.position.x, this.robot.position.y);
-        myCells.forEach((aCell, i) => {
-            if(i === robotIndex){
-                aCell.innerHTML = this.robot.icon;
-            }else{
-                aCell.innerHTML = "";
-            }
-        });
+        this.engine.render();
     }
+}
+
+class Engine{
+    constructor(state){
+        this.state = state;
+        this.lastSate = {};
+    }
+
+    toDom(){
+        let grid_panel = document.createElement("div");
+        grid_panel.className += "grid-panel";
+        grid_panel.setAttribute("id", "grid-panel");
+
+        for(let y = 0; y < this.state.map.height;y++){
+            for(let x = 0; x < this.state.map.width;x++){
+                let cell = document.createElement("div");
+                cell.className += "grid-cell";
+                cell.setAttribute("id", "grid-cell");
+                grid_panel.appendChild(cell);
+
+                cell.innerHTML = x;
+                
+                // if(this.state.robot.position.x === x && this.state.robot.position.y === y){
+                //     cell.innerHTML = this.state.robot.icon;
+                // }
+            }
+        }
+
+        for (let i = 0; i < this.state.dump; i++) {
+            let aSpan = document.createElement("span");
+            aSpan.setAttribute("background-color", "blue");
+            grid_panel.appendChild(aSpan);
+        }
+
+        return grid_panel;
+    }
+
+    stateChanged() {
+        if (!this.lastSate.robot) {
+            return true;
+        } 
+        return this.lastSate.robot.position !== this.state.robot.position;
+    }
+
+    render() {
+        if (!this.stateChanged()) {
+            return;
+        }
+
+        this.lastSate = {
+            ...this.state,
+            robot: {...this.state.robot}
+        };
+
+        let root = document.getElementById("grid-panel");
+        root.replaceWith(this.toDom());
+    }
+
+
+
 }
 
 
