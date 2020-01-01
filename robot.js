@@ -1,119 +1,84 @@
-function Position(x, y) {
+function Postion(x, y){
     this.x = x;
     this.y = y;
 }
 
-Position.prototype = {
-    toIndex: function (mapWidth) {
-        return this.x + this.y * mapWidth;
-    }
-}
-
-function Robot(position, icon)
-{
+function Robot(position, icon){
     this.position = position;
     this.icon = icon;
+
 }
 
-function Game(mapWidth, mapHeight, robot)
-{
-    this.mapWidth = mapWidth;
-    this.mapHeight = mapHeight;
+
+function Game(robot, mapWidth){
     this.robot = robot;
+    this.mapWidth = mapWidth;
     this.history = [];
-
-    this.init = function()
-    {
+    this.init = function(){
         this.robot.position.y = 3;
-        this.robot.position.x = 1;
-    };
+        this.robot.position.x = 3;
+    }
 
-    this.onCommandUp = function()
-    {
-        var targetPostion = new Position(this.robot.position.x, this.robot.position.y-1);
-        this.history.push(this.robot.position);
+    this.onCommandUp = function(){
+        this.history.push(this.robot.position); 
+        var targetPostion = new Postion(this.robot.position.x, this.robot.position.y-1);
         this.move(targetPostion);
-        
-    };
+    }
 
-    this.onCommandRight = function()
-    {
-        var targetPostion = new Position(this.robot.position.x + 1, this.robot.position.y);
-        this.history.push(this.robot.position);
+    this.onCommandLeft = function(){
+        this.history.push(this.robot.position); 
+        var targetPostion = new Postion(this.robot.position.x-1, this.robot.position.y);
         this.move(targetPostion);
-        
-    };
+    }
 
-    this.onCommandDown = function()
-    {
-        var targetPostion = new Position(this.robot.position.x, this.robot.position.y + 1);
-        this.history.push(this.robot.position);
+    this.onCommandDown = function(){
+        this.history.push(this.robot.position); 
+        var targetPostion = new Postion(this.robot.position.x, this.robot.position.y+1);
         this.move(targetPostion);
-        
-    };
+    }
 
-    this.onCommandLeft = function()
-    {
-        var targetPostion = new Position(this.robot.position.x - 1, this.robot.position.y);
-        this.history.push(this.robot.position);
+    this.onCommandRight = function(){
+        this.history.push(this.robot.position); 
+        var targetPostion = new Postion(this.robot.position.x+1, this.robot.position.y);
         this.move(targetPostion);
-        
-    };
+    }
 
-    this.onCommandReset = function()
-    {
-        var targetPostion = new Position(0,0);
+    this.move = function(targetPostion){
+        if(this.validPosition(this.mapWidth, targetPostion.x, targetPostion.y)){            
+            this.robot.position = targetPostion;
+        }       
+        this.render();
+    }
+
+    this.onCommandBack= function(){
+        var targetPostion = this.history.pop();
         this.move(targetPostion);
-    };
+    }
 
-    this.onCommandBack = function()
-    {
-        this.move(this.history.pop());
-
-    };
-
-    this.render = function() {
-        var mapCells = document.querySelectorAll('.grid-cell');
-        var robotIndex = this.robot.position.toIndex(this.mapWidth);
-        mapCells.forEach((aCell, i ) =>
-        {
-            if (i === robotIndex) {
-                mapCells[i].innerHTML = 'R';
-            } else {
-                mapCells[i].innerHTML = '';
-            }
-        });
-    };
-
-    this.avaiablePosition = function(newPosition)
-    {
-        if(newPosition.x >= 0 && newPosition.x < mapWidth
-            && newPosition.y >= 0 && newPosition.y < mapHeight)
-        {
+    this.validPosition = function(mapWidth,x, y){
+        this.mapWidth = mapWidth;
+        if(x >= 0 && x < mapWidth && y >=0 && y < mapWidth){
             return true;
-        }           
-        else
-        {
+        }else{
             return false;
         }
-    };
+    }
 
-    this.move = function(newPostion)
-    {
-        if(this.avaiablePosition(newPostion))
-        {
-            this.robot.position = newPostion;
-            this.render();
-        }
+    this.render = function(){
+        mapCells = document.querySelectorAll('.map-cell');
+        var robotIndex = this.robot.position.x + (this.robot.position.y * this.mapWidth);
+        console.log(robotIndex);
+        mapCells.forEach((aCell, i) =>{
+            if(i === robotIndex){
+                aCell.innerHTML = 'R';
+            }else{
+                aCell.innerHTML = ""; 
+            }
+        })
     }
 }
-
-
-
-
-var initP = new Position(0,0);
-var robot = new Robot(initP,"R");
-var game = new Game(4,4,robot);
+var robot = new Robot(new Postion(3,3), "R")
+var game = new Game(robot, 4);
 
 game.init();
 game.render();
